@@ -2,7 +2,7 @@
 
 ## 当前目标
 
-2026-10-14 用户要求将当前代码关联并推送到 `https://github.com/guijie060304-pixel/smart-wardrobe.git`，建立后续修改基线。已用 Git 读取确认远程暂无引用，当前代码仍是本地 `main` 未提交状态；本轮正在完成关联、提交和推送。提交包含源码、内置资源、测试与文档；`output/` 未接入的头像草稿和 `.preview/` 与依赖/工具私有配置留在本地。抠图真机待验收保持，尚无下一项具体修改要求。
+2026-10-14 已按用户要求关联 GitHub `https://github.com/guijie060304-pixel/smart-wardrobe.git`，当前代码初始基线 `651290e` 已提交并推送到 `origin/main`，本地跟踪 `origin/main`，远程 SHA 与本地核对一致。提交包含源码、内置资源、测试与文档；`output/` 未接入的头像草稿和 `.preview/` 与依赖/工具私有配置留在本地。下一轮从此基线继续，用户尚未给出具体修改要求；抠图真机待验收保持。
 
 2026-10-14 本地辅助抠图已完成开发与模拟器验证：框选图割初稿、圈选/保留/擦除、10 步撤销、双指缩放、透明 PNG、原图恢复和保存版本保护。纯本地、无 AI/上传/运行依赖；原图与展示/试衣共用结果分开保存。类型检查、131 项全量测试（新增 21 项抠图和 1 项日历回归）、修改页独立编译及 CLI auto 通过。模拟器合成衣物完整导出/保存重开/重抠/圈选/搭配加载/恢复原图通过，实际透明 PNG 376×416，约 4.75 秒生成初稿，无异常；测试存储和文件已还原。下一步为 Android/iOS、真实照片、方向/手势/性能/冷启动验收，详见验收文档。
 
@@ -14,7 +14,7 @@
 
 ## 已核实状态
 
-- 根目录 `D:\Project\smart-wardrobe`；原生微信小程序 TypeScript/WXML/WXSS，代码在 `miniprogram/`；4 个导航页、8 个业务子页。Git `main` 尚无提交，现有 AppID 保留。
+- 根目录 `D:\Project\smart-wardrobe`；原生微信小程序 TypeScript/WXML/WXSS，代码在 `miniprogram/`；4 个导航页、8 个业务子页。Git `main` 跟踪 GitHub `guijie060304-pixel/smart-wardrobe` 的 `origin/main`；首次代码基线 `651290e`，现有 AppID 保留。
 - 页面、业务、Repository、人体计算与 Canvas 绘制分离。架构/决策/问题见 `docs/memory/` 对应文件，历次实现与测试详见 `development-log.md`。
 
 ## 已完成
