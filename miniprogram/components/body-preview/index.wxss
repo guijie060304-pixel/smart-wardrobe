@@ -1,0 +1,8 @@
+.preview-frame { position: relative; width: 100%; height: 54vh; min-height: 300px; max-height: 520px; border-radius: 21rpx; overflow: hidden; background: #eef2f7; }
+.body-canvas { display: block; width: 100%; height: 100%; }
+.render-error { position: absolute; top: 0; left: 0; width: 100%; height: 100%; padding: 36rpx; box-sizing: border-box; display: flex; flex-direction: column; justify-content: center; text-align: center; background: #eef2f7; color: #a34543; font-size: 28rpx; }
+.render-error button { margin-top: 24rpx; }
+.loading-note { position: absolute; top: 16rpx; left: 16rpx; color: #49755a; font-size: 23rpx; pointer-events: none; }
+.gesture-note { position: absolute; bottom: 20rpx; left: 50%; transform: translateX(-50%); padding: 13rpx 22rpx; border-radius: 99rpx; background: #28483b; color: #fffefa; font-size: 23rpx; white-space: nowrap; pointer-events: none; }
+.image-warnings { margin-top: 16rpx; color: #a34543; font-size: 24rpx; line-height: 1.6; }
+.image-warnings button { margin-top: 12rpx; }

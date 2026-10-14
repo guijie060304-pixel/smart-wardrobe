@@ -1,0 +1,14 @@
+{
+  "name": "smart-wardrobe",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "node --import tsx --test tests/garment.test.mjs tests/body.test.mjs tests/try-on.test.mjs tests/outfit.test.mjs tests/integration.test.mjs tests/fitting.test.mjs tests/mannequin.test.mjs tests/calendar.test.mjs tests/board.test.mjs tests/cutout.test.mjs"
+  },
+  "devDependencies": {
+    "miniprogram-api-typings": "^4.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.0"
+  }
+}

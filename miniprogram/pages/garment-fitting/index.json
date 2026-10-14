@@ -1,0 +1,1 @@
+{ "navigationBarTitleText": "校准衣物贴合", "usingComponents": { "garment-calibrator": "../../components/garment-calibrator/index", "body-preview": "../../components/body-preview/index" } }

@@ -1,0 +1,16 @@
+.form-section { margin-top: 28rpx; }
+.field-label { margin-top: 22rpx; margin-bottom: 12rpx; color: #334b3e; font-size: 27rpx; font-weight: 600; }
+.text-field, .picker-field { min-height: 48rpx; padding: 18rpx 20rpx; border: 1rpx solid #e1e8de; border-radius: 16rpx; background: #f6f7f2; font-size: 28rpx; }
+.picker-field { color: #526a58; }
+.text-area { width: 100%; min-height: 150rpx; padding: 18rpx 20rpx; border: 1rpx solid #e1e8de; border-radius: 16rpx; background: #f6f7f2; font-size: 28rpx; box-sizing: border-box; }
+.preview-image, .image-placeholder { display: flex; align-items: center; justify-content: center; width: 100%; height: 400rpx; background: #e9ece5; border-radius: 20rpx; }
+.image-placeholder { color: #7a857d; text-align: center; font-size: 26rpx; }
+.overlay-preview { width: 100%; height: 240rpx; margin-top: 20rpx; background: #e9ece5; border-radius: 16rpx; }
+.small-button { margin-top: 20rpx; }
+.inline-actions { display: flex; justify-content: space-around; margin-top: 20rpx; color: #4c7559; font-size: 27rpx; }
+.season-row { display: flex; flex-wrap: wrap; gap: 20rpx; }
+.season-item { font-size: 26rpx; white-space: nowrap; }
+.save-button { margin-top: 32rpx; }
+.error-text { margin-top: 24rpx; color: #a34543; }
+.preview-image, .overlay-preview { background: #FFFFFF; }
+.cutout-hint { margin-top: 18rpx; font-size: 24rpx; color: #69776c; line-height: 1.6; }

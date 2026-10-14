@@ -1,0 +1,29 @@
+<view class="page-shell">
+  <view class="eyebrow">STUDIO / FITTING</view>
+  <view class="page-title">校准衣物贴合</view>
+  <view wx:if="{{loadError}}" class="card error-text">{{loadError}}</view>
+  <block wx:else>
+    <view class="page-subtitle">{{garment.name}} · 标记一次，以后按模特身材试穿</view>
+    <view wx:if="{{fitting}}" class="mode-row">
+      <button class="mode-button {{fitting.mode === 'adapt' ? 'selected' : ''}}" data-mode="adapt" bindtap="setMode">分区贴合</button>
+      <button class="mode-button {{fitting.mode === 'original' ? 'selected' : ''}}" data-mode="original" bindtap="setMode">保留原图</button>
+    </view>
+    <view class="editor-toolbar"><text>{{showPreview ? '当前身材上身预览' : '衣物正面 · 左右按图片方向'}}</text><button size="mini" disabled="{{!imageReady}}" bindtap="togglePreview">{{showPreview ? '返回标记' : '查看上身'}}</button></view>
+    <body-preview wx:if="{{showPreview}}" id="fittingPreview" profile="{{profile}}" items="{{previewItems}}" />
+    <garment-calibrator wx:else id="garmentCalibrator" image-path="{{imagePath}}" fitting="{{fitting}}" active="{{active}}" bind:pointselect="onPointSelect" bind:pointchange="onPointChange" bind:imageinfo="onImageInfo" bind:imageerror="onImageError" />
+    <block wx:if="{{fitting && fitting.mode === 'adapt'}}">
+      <view class="editing-hint">{{showPreview ? '可在下方调整版型余量、袖长和穿着长度；标记位置不准时，返回标记修改。' : '当前：' + activeName + '。拖动圆点，或先选下方标记再轻点图片。空白处上下滑动可翻页。'}}</view>
+      <view wx:if="{{!showPreview}}" class="point-list"><button wx:for="{{points}}" wx:key="key" class="point-chip {{active === item.key ? 'active-point' : ''}}" size="mini" data-key="{{item.key}}" bindtap="onPointSelect">{{item.number}} {{item.name}}</button></view>
+      <view class="card settings">
+        <picker range="{{easeNames}}" value="{{easeIndex}}" data-field="ease" bindchange="onChoice"><view class="choice-row"><text>版型余量</text><text>{{easeNames[easeIndex]}} ›</text></view></picker>
+        <picker wx:if="{{hasSleeves}}" range="{{sleeveNames}}" value="{{sleeveIndex}}" data-field="sleeve" bindchange="onChoice"><view class="choice-row"><text>袖长</text><text>{{sleeveNames[sleeveIndex]}} ›</text></view></picker>
+        <picker range="{{lengthNames}}" value="{{lengthIndex}}" data-field="length" bindchange="onChoice"><view class="choice-row"><text>穿着长度</text><text>{{lengthNames[lengthIndex]}} ›</text></view></picker>
+        <button size="mini" class="reset-button" disabled="{{saving}}" bindtap="resetPoints">重新估算标记</button>
+      </view>
+    </block>
+    <view class="form-note">{{transparent ? '已检测到透明区域。虚线应包住衣身和袖子，标记不准时可直接修正。' : '图片含背景或当前设备无法分析透明区域。背景会跟随图片一起变形，建议使用透明、袖子展开的正面平铺图；也可保留原图。'}} 校准只存在本机，不改变原照片。</view>
+    <view class="form-note">贴合按版型和身材比例估算，不判断真实尺码或模拟面料垂坠。换图、换品类后需要重新校准。</view>
+    <view wx:if="{{error}}" class="error-text">{{error}}</view>
+    <button class="primary-button save-button" loading="{{saving}}" disabled="{{saving || !imageReady || !fitting}}" bindtap="saveFitting">保存，以后直接试穿</button>
+  </block>
+</view>

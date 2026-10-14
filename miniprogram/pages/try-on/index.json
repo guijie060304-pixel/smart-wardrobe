@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "虚拟试衣",
+  "usingComponents": { "body-preview": "/components/body-preview/index" }
+}

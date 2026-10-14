@@ -1,0 +1,8 @@
+.body-card { margin-top: 32rpx; }
+.profile-row { display: flex; justify-content: space-between; gap: 24rpx; padding: 18rpx 0; border-bottom: 1rpx solid #edf0e9; font-size: 28rpx; }
+.profile-row:last-child { border-bottom: 0; }
+.profile-row text:first-child { color: #79867c; flex-shrink: 0; }
+.profile-row text:last-child { overflow-wrap: anywhere; text-align: right; min-width: 0; }
+.action { margin-top: 24rpx; }
+.privacy-note { margin-top: 28rpx; padding: 22rpx 24rpx; border-radius: 18rpx; background: #e9eee8; color: #5d7163; font-size: 24rpx; line-height: 1.6; }
+.error-text { color: #a34543; }

@@ -1,0 +1,13 @@
+.mode-row { display: flex; gap: 16rpx; margin: 26rpx 0; }
+.mode-button { flex: 1; padding: 0 18rpx; border-radius: 18rpx; background: #e9ece5; color: #52695b; font-size: 27rpx; }
+.mode-button.selected { background: #28483b; color: #fffefa; }
+.editor-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12rpx; margin: 24rpx 0 16rpx; color: #617668; font-size: 24rpx; }
+.editor-toolbar button { flex-shrink: 0; margin: 0; background: #e8eee7; color: #28483b; font-size: 23rpx; }
+.editing-hint, .form-note { margin: 20rpx 0; color: #728176; font-size: 25rpx; line-height: 1.6; }
+.point-list { display: flex; flex-wrap: wrap; gap: 12rpx; margin-bottom: 26rpx; }
+.point-chip { margin: 0; padding: 0 16rpx; background: #e9ece5; color: #52695b; font-size: 23rpx; }
+.point-chip.active-point { background: #b6684d; color: #fffefa; }
+.choice-row { display: flex; justify-content: space-between; padding: 21rpx 0; border-bottom: 1rpx solid #e8e9e2; }
+.reset-button { margin: 22rpx 0 0; background: #e9ece5; color: #52695b; }
+.error-text { margin: 24rpx 0; color: #a34543; font-size: 26rpx; line-height: 1.6; }
+.save-button { margin-top: 26rpx; }

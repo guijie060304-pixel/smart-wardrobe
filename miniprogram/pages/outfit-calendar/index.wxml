@@ -1,0 +1,66 @@
+<view class="page-shell calendar-shell">
+  <view class="eyebrow">LOOKBOOK / CALENDAR</view>
+  <view class="calendar-title-row"><view class="page-title">穿搭日历</view><button id="calendarToday" size="mini" disabled="{{saving}}" bindtap="goToday">回到今天</button></view>
+  <view class="page-subtitle">给每一天留几套灵感，也留下一点回忆。</view>
+  <view class="card month-card">
+    <view class="month-heading">
+      <button id="calendarPrev" class="month-arrow" data-offset="-1" disabled="{{saving}}" bindtap="changeMonth">‹</button>
+      <picker mode="date" value="{{selectedDate}}" start="{{range.start}}" end="{{range.end}}" disabled="{{saving}}" bindchange="onDatePicker"><view class="month-label">{{monthLabel}} <text>⌄</text></view></picker>
+      <button id="calendarNext" class="month-arrow" data-offset="1" disabled="{{saving}}" bindtap="changeMonth">›</button>
+    </view>
+    <view class="calendar-week"><text wx:for="{{weekdays}}" wx:key="*this">{{item}}</text></view>
+    <view class="calendar-grid">
+      <button wx:for="{{cells}}" wx:key="date" class="calendar-day {{!item.inMonth ? 'other-month' : ''}} {{item.today ? 'today-cell' : ''}} {{item.selected ? 'selected-cell' : ''}}" disabled="{{saving || item.disabled}}" data-date="{{item.date}}" bindtap="selectDate">
+        <text class="day-number">{{item.day}}</text>
+        <view class="day-marks"><view wx:if="{{item.count}}" class="date-dot look-dot"></view><view wx:if="{{item.hasNote}}" class="date-dot note-dot"></view></view>
+      </button>
+    </view>
+    <view class="calendar-legend"><view><text class="legend-dot look-dot"></text>有穿搭</view><view><text class="legend-dot note-dot"></text>有注意事项</view><text>点日期查看</text></view>
+  </view>
+  <view wx:if="{{loadError}}" class="card empty-state error-text"><view>{{loadError}}</view><button size="mini" bindtap="loadCalendar">重新读取</button></view>
+  <block wx:else>
+    <view class="day-heading"><view><view class="section-title">{{dateLabel}}</view><view class="day-context">{{dateContext}}</view></view><text class="day-count">{{looks.length}} 套穿搭</text></view>
+    <view id="dayNote" class="card note-card">
+      <view class="section-row"><view class="section-title">注意事项</view><button wx:if="{{!editingNote}}" id="calendarEditNote" size="mini" disabled="{{saving}}" bindtap="editNote">{{noteSaved ? '编辑' : '添加'}}</button><text wx:else class="note-dirty">{{noteDirty ? '尚未保存' : ''}}</text></view>
+      <block wx:if="{{editingNote}}">
+        <textarea id="calendarNoteInput" class="note-input" value="{{noteDraft}}" maxlength="{{noteLimit}}" disabled="{{saving}}" auto-height adjust-position cursor-spacing="28" placeholder="例如：下午开会带外套；白鞋需要清洁；这套很适合周末散步。" bindinput="onNoteInput" />
+        <view class="note-counter">{{noteDraft.length}} / {{noteLimit}}</view>
+        <view class="note-actions"><button size="mini" disabled="{{saving}}" bindtap="cancelNote">取消修改</button><button id="calendarSaveNote" class="save-note" size="mini" loading="{{saving}}" disabled="{{saving || !noteDirty}}" bindtap="onSaveNote">保存注意事项</button></view>
+      </block>
+      <view wx:else class="note-content {{!noteSaved ? 'muted' : ''}}">{{noteSaved || '记下当天的安排、天气感受或穿搭小提醒。'}}</view>
+    </view>
+    <view wx:if="{{error}}" class="calendar-error error-text">{{error}}</view>
+    <view class="section-row looks-heading"><view class="section-title">当天穿搭</view><button id="calendarAddLooks" size="mini" disabled="{{saving || looks.length >= lookLimit}}" bindtap="openOutfitPicker">＋ 添加穿搭</button></view>
+    <view wx:if="{{pickerOpen}}" id="outfitPicker" class="card outfit-picker">
+      <view class="section-row"><view class="section-title">从我的穿搭中选择</view><button size="mini" disabled="{{saving}}" bindtap="closeOutfitPicker">收起</button></view>
+      <view class="picker-hint">可多选，每天最多 {{lookLimit}} 套。加入后保留当时的名称和本地照片。</view>
+      <view wx:if="{{pickerError}}" class="error-text">{{pickerError}}<button size="mini" bindtap="openOutfitPicker">重新读取</button></view>
+      <block wx:else>
+        <input class="picker-search" value="{{outfitQuery}}" disabled="{{saving}}" placeholder="搜索已保存的穿搭" bindinput="onOutfitQuery" />
+        <view wx:if="{{!outfitCount}}" class="picker-empty"><view class="empty-copy">先在自由搭配中选衣、保存一套，再加入日历。</view><button class="secondary-button" disabled="{{saving}}" bindtap="goMatch">去自由搭配</button></view>
+        <view wx:elif="{{!choices.length}}" class="empty-copy">没有找到这套穿搭，试试其他名字。</view>
+        <scroll-view wx:else class="picker-scroll" scroll-y>
+          <view wx:for="{{choices}}" wx:key="id" class="outfit-choice {{item.selected ? 'choice-selected' : ''}} {{item.added ? 'choice-added' : ''}}" data-id="{{item.id}}" bindtap="toggleOutfit">
+            <view class="choice-heading"><text class="choice-name">{{item.name}}</text><text class="choice-check">{{item.added ? '当天已有' : item.selected ? '✓ 已选' : '＋ 选择'}}</text></view>
+            <view class="choice-images"><image wx:for="{{item.images}}" wx:for-item="path" wx:key="*this" src="{{path}}" mode="aspectFit" /></view>
+            <view class="picker-hint">{{item.count}} 件衣物<text wx:if="{{item.missing}}"> · {{item.missing}} 件已删除，将保留缺失标记</text></view>
+          </view>
+        </scroll-view>
+        <button id="calendarConfirmLooks" class="primary-button picker-confirm" loading="{{saving}}" disabled="{{saving || !selectedOutfitIds.length}}" bindtap="addSelectedOutfits">{{saving ? '正在保存本地照片…' : '加入当天穿搭（' + selectedOutfitIds.length + '）'}}</button>
+      </block>
+    </view>
+    <view wx:if="{{!looks.length}}" class="card calendar-empty"><view class="empty-title">这一天还没有穿搭</view><view class="empty-copy">添加几套喜欢的组合，出门前参考，日后也能回来看看。</view></view>
+    <view wx:for="{{looks}}" wx:key="id" class="card calendar-look">
+      <view class="section-row"><view class="look-name">{{item.name}}</view><button class="remove-look" size="mini" disabled="{{saving}}" data-id="{{item.id}}" bindtap="removeLook">移除</button></view>
+      <view class="look-pieces" data-id="{{item.id}}" bindtap="previewLook">
+        <view wx:for="{{item.pieces}}" wx:for-item="piece" wx:key="garmentId" class="look-piece">
+          <image wx:if="{{piece.imagePath && !piece.failed}}" src="{{piece.imagePath}}" mode="aspectFit" data-path="{{piece.imagePath}}" binderror="onArchiveImageError" />
+          <view wx:else class="archive-fallback">{{piece.imagePath ? '照片无法显示' : '原衣物已删除'}}</view>
+          <view class="piece-name">{{piece.name}}</view><view class="piece-layer">{{piece.layerName}}</view>
+        </view>
+      </view>
+      <view class="archive-hint">日期存档 · 点照片放大查看</view>
+    </view>
+    <view class="calendar-footnote">穿搭、照片存档和注意事项都保存在本机。删除某天的穿搭会清理对应照片副本；原来的衣橱和“我的穿搭”保留。</view>
+  </block>
+</view>

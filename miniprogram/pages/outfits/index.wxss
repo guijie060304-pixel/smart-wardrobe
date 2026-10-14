@@ -1,0 +1,18 @@
+.mode-tabs { display: flex; gap: 12rpx; margin: 28rpx 0; padding: 8rpx; border-radius: 20rpx; background: #e9eee8; }
+.mode-tabs button { flex: 1; margin: 0; border-radius: 15rpx; background: transparent; color: #65796a; }
+.mode-tabs .selected { background: #28483b; color: #fffefa; }
+.search-input { background: #fffefa; padding: 22rpx; border: 1rpx solid #e1e5dc; border-radius: 18rpx; font-size: 28rpx; }
+.outfit-card { margin-top: 20rpx; }
+.outfit-name { color: #294238; font-weight: 600; font-size: 32rpx; overflow-wrap: anywhere; }
+.outfit-heading { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.outfit-heading .outfit-name { flex: 1; min-width: 0; }
+.card-delete { flex-shrink: 0; margin: 0; color: #a5644d; background: #f3ede6; font-size: 23rpx; }
+.outfit-images { display: flex; gap: 12rpx; margin-top: 18rpx; }
+.outfit-images image { width: 30%; height: 150rpx; border-radius: 12rpx; background: #e9ece5; }
+.card-meta, .issue-note { font-size: 24rpx; line-height: 1.5; color: #7a857d; margin-top: 16rpx; }
+.issue-note, .error-text { color: #a34543; }
+.action { margin-top: 28rpx; }
+.outfit-actions { display: flex; gap: 14rpx; margin-top: 28rpx; }
+.outfit-actions button { margin: 0; font-size: 25rpx; padding: 0 18rpx; }
+.outfit-actions .primary-button { flex: 1.2; }
+.outfit-actions .secondary-button { flex: 1; }

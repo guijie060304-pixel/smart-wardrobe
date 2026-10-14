@@ -1,0 +1,46 @@
+page { height: 100%; overflow: hidden; }
+.wardrobe-shell { height: 100%; padding-bottom: 0; display: flex; flex-direction: column; overflow: hidden; }
+.wardrobe-header { flex-shrink: 0; padding-bottom: 18rpx; background: #f5f3ee; }
+.garment-scroll { flex: 1; min-height: 0; width: 100%; }
+.garment-scroll::-webkit-scrollbar, .filter-row::-webkit-scrollbar { display: none; width: 0; height: 0; }
+.garment-scroll-content { padding: 0 0 30rpx; box-sizing: border-box; }
+.scroll-anchor { height: 0; }
+.wardrobe-summary { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.wardrobe-summary button { margin: 0; color: #325544; background: #e9eee8; }
+.wardrobe-links { display: flex; gap: 10rpx; }
+.wardrobe-links button { font-size: 22rpx; padding: 0 16rpx; }
+.wardrobe-modes { display: flex; gap: 8rpx; margin-top: 20rpx; padding: 8rpx; background: #e9eee8; border-radius: 20rpx; }
+.wardrobe-modes button { flex: 1; margin: 0; min-height: 76rpx; line-height: 76rpx; padding: 0 16rpx; border-radius: 15rpx; background: transparent; color: #526c5b; font-size: 28rpx; font-weight: 600; }
+.wardrobe-modes .active-mode { background: #28483b; color: #fffefa; }
+.match-hint { font-size: 23rpx; line-height: 1.5; color: #5e7565; margin-top: 16rpx; }
+.garment-card { position: relative; }
+.garment-card.selected-card { border: 3rpx solid #567f63; background: #eef3ec; }
+.unavailable-card { opacity: .6; }
+.selection-badge { position: absolute; top: 12rpx; right: 12rpx; padding: 8rpx 14rpx; border-radius: 99rpx; background: #fffefa; color: #365547; font-size: 22rpx; z-index: 1; }
+.checked-badge { background: #28483b; color: #fffefa; }
+.match-footer { flex-shrink: 0; padding: 14rpx 0 18rpx; border-top: 1rpx solid #dce5da; background: #f5f3ee; }
+.selected-scroll { width: 100%; }
+.selected-strip { display: flex; gap: 14rpx; padding-bottom: 14rpx; }
+.selected-piece { display: flex; align-items: center; flex-shrink: 0; gap: 12rpx; padding: 8rpx 12rpx; border-radius: 14rpx; background: #e9eee8; max-width: 300rpx; }
+.selected-piece image { width: 64rpx; height: 72rpx; flex-shrink: 0; }
+.selected-copy { min-width: 0; font-size: 23rpx; color: #294238; }
+.selected-copy view { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.selected-copy text { font-size: 20rpx; color: #7a857d; }
+.match-save-row { display: flex; align-items: center; justify-content: space-between; gap: 16rpx; }
+.match-count { flex: 1; min-width: 0; font-size: 25rpx; color: #365547; }
+.match-name-input { padding: 16rpx 20rpx; margin-bottom: 14rpx; background: #fffefa; border: 1rpx solid #e1e5dc; border-radius: 14rpx; color: #294238; font-size: 25rpx; }
+.match-save-row button { margin: 0; padding: 0 30rpx; font-size: 27rpx; flex-shrink: 0; }
+.match-save-row button[size="mini"] { padding: 0 16rpx; font-size: 23rpx; background: #e9eee8; color: #325544; }
+.draft-board { padding: 16rpx 0 20rpx; }
+.draft-board-heading { display: flex; align-items: center; justify-content: space-between; gap: 14rpx; margin-bottom: 16rpx; font-size: 28rpx; font-weight: 600; }
+.draft-board-heading button { margin: 0; background: #e9eee8; color: #325544; }
+.search-field { margin-top: 20rpx; padding: 22rpx 26rpx; background: #fffefa; border: 1rpx solid #e1e5dc; border-radius: 20rpx; font-size: 27rpx; }
+.filter-row { display: flex; overflow-x: auto; white-space: nowrap; gap: 12rpx; margin-top: 22rpx; padding-bottom: 8rpx; }
+.filter-chip { padding: 15rpx 20rpx; border-radius: 16rpx; background: #e9eee8; border: 1rpx solid #dce5da; color: #365547; font-size: 24rpx; }
+.garment-grid { display: flex; flex-wrap: wrap; justify-content: space-between; margin-top: 16rpx; }
+.garment-card { width: 48%; margin-bottom: 22rpx; background: #fffefa; border: 1rpx solid #e8e9e2; border-radius: 23rpx; overflow: hidden; box-sizing: border-box; }
+.garment-image { display: flex; align-items: center; justify-content: center; width: 100%; height: 290rpx; background: #FFFFFF; }
+.image-fallback { color: #7a857d; font-size: 24rpx; }
+.garment-name { padding: 16rpx 18rpx 0; color: #2a4035; font-size: 28rpx; font-weight: 600; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.garment-meta { padding: 8rpx 18rpx 18rpx; color: #7a857d; font-size: 23rpx; }
+.error-text { margin-top: 32rpx; color: #a34543; }

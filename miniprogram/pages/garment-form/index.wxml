@@ -1,0 +1,76 @@
+<view class="page-shell">
+  <view class="eyebrow">COLLECTION / EDIT</view>
+  <view class="page-title">{{id ? '编辑衣物' : '添加衣物'}}</view>
+  <view class="page-subtitle">图片和分类是必填项，其余信息可稍后完善。</view>
+  <view wx:if="{{loadError}}" class="card error-text">{{loadError}}</view>
+  <block wx:else>
+    <view class="form-section card">
+      <view class="section-title">衣物图片 *</view>
+      <image wx:if="{{imagePath && !imageFailed}}" src="{{imagePath}}" class="preview-image" mode="aspectFit" bindtap="previewDisplayImage" binderror="onImageError" />
+      <view wx:elif="{{imagePath}}" class="image-placeholder">图片无法显示，请重新选择</view>
+      <view wx:else class="image-placeholder">拍照或从相册选择一张衣物照片</view>
+      <button class="secondary-button small-button" bindtap="chooseDisplayImage">{{imagePath ? '重新选择图片' : '选择图片'}}</button>
+      <view wx:if="{{imagePath}}" class="inline-actions">
+        <text id="openCutout" bindtap="openCutout">{{originalPath ? '重新抠图' : '去背景'}}</text>
+        <text bindtap="editDisplayImage">裁剪 / 调整方向</text>
+        <text bindtap="removeDisplayImage">移除</text>
+      </view>
+      <view wx:if="{{originalPath}}" class="inline-actions"><text bindtap="restoreOriginal">恢复原照片</text></view>
+      <view wx:if="{{imagePath}}" class="cutout-hint">{{originalPath ? '抠图已应用于展示与试衣，原照片仍保留。请保存衣物使修改生效。' : '背景杂乱时可去背景；也可以直接保存原照片。'}}</view>
+    </view>
+
+    <view class="form-section card">
+      <view class="section-title">衣物分类 *</view>
+      <view class="field-label">大类</view>
+      <picker range="{{groupNames}}" value="{{groupIndex}}" bindchange="onGroupChange">
+        <view class="picker-field">{{groupIndex < 0 ? '请选择大类' : groupNames[groupIndex]}}</view>
+      </picker>
+      <view class="field-label">具体品类</view>
+      <picker range="{{typeNames}}" value="{{typeIndex}}" bindchange="onTypeChange" disabled="{{groupIndex < 0}}">
+        <view class="picker-field">{{typeIndex < 0 ? '请选择具体品类' : typeNames[typeIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="form-section card">
+      <view class="section-title">其他信息（选填）</view>
+      <view class="field-label">名称</view>
+      <input class="text-field" placeholder="不填则使用品类名称" value="{{name}}" data-field="name" bindinput="onFieldInput" />
+      <view class="field-label">颜色</view>
+      <input class="text-field" placeholder="例如：白色" value="{{color}}" data-field="color" bindinput="onFieldInput" />
+      <view class="field-label">季节</view>
+      <checkbox-group class="season-row" bindchange="onSeasonChange">
+        <label wx:for="{{seasonChoices}}" wx:key="id" class="season-item">
+          <checkbox value="{{item.id}}" checked="{{item.checked}}" color="#28483B" />{{item.name}}
+        </label>
+      </checkbox-group>
+      <view class="field-label">风格</view>
+      <input class="text-field" placeholder="例如：休闲" value="{{style}}" data-field="style" bindinput="onFieldInput" />
+      <view class="field-label">版型</view>
+      <input class="text-field" placeholder="例如：宽松" value="{{fit}}" data-field="fit" bindinput="onFieldInput" />
+      <view class="field-label">材质</view>
+      <input class="text-field" value="{{material}}" data-field="material" bindinput="onFieldInput" />
+      <view class="field-label">品牌</view>
+      <input class="text-field" value="{{brand}}" data-field="brand" bindinput="onFieldInput" />
+      <view class="field-label">购买价格（元）</view>
+      <input class="text-field" type="digit" value="{{priceInput}}" data-field="priceInput" bindinput="onFieldInput" />
+      <view class="field-label">购买日期</view>
+      <picker mode="date" value="{{purchaseDate}}" bindchange="onDateChange">
+        <view class="picker-field">{{purchaseDate || '请选择日期'}}</view>
+      </picker>
+      <view class="field-label">自定义标签</view>
+      <input class="text-field" placeholder="多个标签用逗号分隔" value="{{tagsInput}}" data-field="tagsInput" bindinput="onFieldInput" />
+      <view class="field-label">备注</view>
+      <textarea class="text-area" placeholder="记录衣物相关信息" value="{{note}}" data-field="note" bindinput="onFieldInput" />
+    </view>
+
+    <view class="form-section card">
+      <view class="section-title">试衣贴图（选填）</view>
+      <view class="muted">去背景后会自动用于试衣，无需重复选择。也可单独选择衣物正面平铺的透明 PNG，保留领口和完整下摆。裁剪用于调整取景；去背景和试衣均不会补画被遮挡的衣物。</view>
+      <image wx:if="{{overlayPath}}" src="{{overlayPath}}" class="overlay-preview" mode="aspectFit" />
+      <button class="secondary-button small-button" bindtap="chooseOverlayImage">{{overlayPath ? '更换贴图' : '选择贴图'}}</button>
+      <view wx:if="{{overlayPath}}" class="inline-actions"><text bindtap="removeOverlayImage">移除贴图</text></view>
+    </view>
+
+    <button class="primary-button save-button" loading="{{saving}}" disabled="{{saving}}" bindtap="saveGarment">保存衣物</button>
+  </block>
+</view>

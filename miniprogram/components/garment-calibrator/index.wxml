@@ -1,0 +1,4 @@
+<view class="calibration-frame">
+  <canvas type="2d" id="calibrationCanvas" class="calibration-canvas" disable-scroll="{{dragging}}" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindtouchend="onTouchEnd" bindtouchcancel="onTouchCancel" />
+  <view wx:if="{{error}}" class="calibration-error"><view>{{error}}</view><button size="mini" bindtap="refresh">重新读取</button></view>
+</view>

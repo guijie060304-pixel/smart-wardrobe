@@ -1,0 +1,16 @@
+page { min-height: 100%; background: #f5f3ee; color: #26372f; font-size: 28rpx; box-sizing: border-box; }
+button::after { border: 0; }
+.page-shell { padding: 36rpx 32rpx calc(56rpx + env(safe-area-inset-bottom)); box-sizing: border-box; }
+.eyebrow { margin-bottom: 15rpx; color: #a5644d; font-size: 21rpx; font-weight: 600; letter-spacing: 3rpx; }
+.page-title { color: #243b31; font-size: 52rpx; font-weight: 600; letter-spacing: -1rpx; line-height: 1.23; }
+.page-subtitle { margin-top: 12rpx; color: #758178; font-size: 26rpx; line-height: 1.55; }
+.section-title { margin-bottom: 22rpx; color: #253a31; font-size: 32rpx; font-weight: 600; line-height: 1.35; }
+.card { padding: 30rpx; box-sizing: border-box; border: 1rpx solid #e8e9e2; border-radius: 28rpx; background: #fffefa; box-shadow: 0 12rpx 36rpx rgba(35, 56, 44, 0.035); }
+.muted { color: #78847b; }
+.primary-button, .secondary-button { min-height: 88rpx; padding: 0 28rpx; border-radius: 20rpx; font-size: 28rpx; font-weight: 600; line-height: 88rpx; box-sizing: border-box; }
+.primary-button { background: #28483b; color: #fffefa; }
+.secondary-button { background: #fffefa; color: #294338; border: 1rpx solid #dfe4dc; }
+.primary-button[disabled], .secondary-button[disabled] { opacity: 0.48; }
+.empty-state { margin-top: 32rpx; text-align: center; }
+.empty-title { margin-bottom: 10rpx; color: #2b4036; font-size: 30rpx; font-weight: 600; }
+.empty-copy { color: #7a857d; font-size: 26rpx; line-height: 1.65; }

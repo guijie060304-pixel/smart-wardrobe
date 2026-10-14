@@ -1,0 +1,50 @@
+<view class="page-shell home-shell">
+  <view class="home-kicker">SMART WARDROBE · DAILY EDIT</view>
+  <view class="page-title home-title"><view>让每一天，</view><view>穿得像自己。</view></view>
+  <view class="page-subtitle">把喜欢的衣物，整理成自己的日常。</view>
+
+  <view class="hero-card">
+    <view class="hero-decoration hero-decoration-one"></view>
+    <view class="hero-decoration hero-decoration-two"></view>
+    <view class="hero-kicker">你的衣橱概览</view>
+    <view class="hero-heading">今天想穿什么？</view>
+    <view class="hero-stats">
+      <view class="hero-stat"><text class="hero-number">{{garmentCount}}</text><text class="hero-unit">件衣物</text></view>
+      <view class="hero-divider"></view>
+      <view class="hero-stat"><text class="hero-number">{{outfitError ? '—' : outfitCount}}</text><text class="hero-unit">套穿搭</text></view>
+    </view>
+    <button id="homeFreeMatch" class="hero-match-button" bindtap="goMatch">＋ 开始自由搭配 <text>›</text></button>
+    <view class="hero-match-copy">从衣橱选衣组合，直接保存日常穿搭</view>
+  </view>
+
+  <view class="home-section-heading"><view class="section-title">开始搭配</view><view class="heading-rule"></view></view>
+  <view class="quick-actions">
+    <button class="quick-action quick-action-primary" bindtap="goAddGarment"><text class="quick-symbol">＋</text><text class="quick-name">添加衣物</text><text class="quick-caption">记录新发现</text></button>
+    <button class="quick-action quick-action-accent" bindtap="goTryOn"><text class="quick-symbol">✦</text><text class="quick-name">模特试衣</text><text class="quick-caption">在模特上预览效果</text></button>
+    <button id="homeCalendar" class="quick-action" bindtap="goCalendar"><text class="quick-symbol">▦</text><text class="quick-name">穿搭日历</text><text class="quick-caption">每日参考，留住回忆</text></button>
+    <button class="quick-action" bindtap="goOutfits"><text class="quick-symbol">◇</text><text class="quick-name">我的穿搭</text><text class="quick-caption">回看保存的灵感</text></button>
+  </view>
+
+  <view wx:if="{{loadError}}" class="empty-state card error-text">{{loadError}}</view>
+  <view wx:elif="{{!garmentCount}}" class="home-empty card">
+    <view class="empty-mark">01 / START HERE</view>
+    <view class="empty-title">从第一件衣物开始</view>
+    <view class="empty-copy">添加照片和分类，慢慢整理出属于你的衣橱。</view>
+  </view>
+  <view wx:else class="recent-section">
+    <view class="home-section-heading"><view class="section-title">最近添加</view><view class="heading-rule"></view></view>
+    <view class="recent-grid">
+      <view class="recent-card" wx:for="{{recentGarments}}" wx:key="id" data-id="{{item.id}}" bindtap="openGarment">
+        <image src="{{item.imagePath}}" mode="aspectFill" class="recent-image" />
+        <view class="recent-name">{{item.name}}</view>
+        <view class="recent-meta">{{item.categoryName}}</view>
+      </view>
+    </view>
+  </view>
+  <view class="recent-section">
+    <view class="home-section-heading"><view class="section-title">最近穿搭</view><view class="heading-rule"></view></view>
+    <view wx:if="{{outfitError}}" class="card error-text">{{outfitError}}</view>
+    <view wx:elif="{{!recentOutfits.length}}" class="card outfit-empty"><view class="outfit-empty-mark">LOOKBOOK</view><view class="empty-copy">点“开始自由搭配”，选几件衣物保存成一套，灵感就会留在这里。</view></view>
+    <view wx:for="{{recentOutfits}}" wx:key="id" class="card saved-outfit-row" data-id="{{item.id}}" bindtap="openOutfit"><view>{{item.name}}</view><text class="muted">{{item.count}} 件衣物 · 查看详情</text></view>
+  </view>
+</view>

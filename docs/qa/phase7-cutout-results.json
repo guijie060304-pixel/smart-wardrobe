@@ -1,0 +1,17 @@
+{
+  "nativeEstimateMs": 4751,
+  "png": {
+    "width": 376,
+    "height": 416,
+    "transparentPixels": 64903,
+    "visiblePixels": 91513
+  },
+  "restoreOriginalSaved": true,
+  "draftOnlyUntilSave": true,
+  "persistedSharedPng": true,
+  "originalPreservedOnReprocess": true,
+  "manualPolygon": true,
+  "boardLoaded": true,
+  "exceptions": [],
+  "originalDataRestored": true
+}

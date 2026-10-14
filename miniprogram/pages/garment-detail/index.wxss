@@ -1,0 +1,12 @@
+.detail-image { display: flex; align-items: center; justify-content: center; width: 100%; height: 620rpx; background: #FFFFFF; border-radius: 28rpx; }
+.image-fallback { color: #7a857d; font-size: 28rpx; }
+.detail-title { margin-top: 30rpx; }
+.properties { margin-top: 32rpx; }
+.property { display: flex; justify-content: space-between; gap: 24rpx; padding: 18rpx 0; border-bottom: 1rpx solid #edf0e9; font-size: 28rpx; }
+.property:last-child { border-bottom: 0; }
+.property text:first-child { color: #7a857d; flex-shrink: 0; }
+.property text:last-child { text-align: right; overflow-wrap: anywhere; }
+.action { margin-top: 24rpx; }
+.delete-button { color: #a34543; }
+.hint { margin-top: 20rpx; text-align: center; font-size: 24rpx; }
+.error-text { color: #a34543; }

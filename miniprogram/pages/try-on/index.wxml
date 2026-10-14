@@ -1,0 +1,64 @@
+<view class="page-shell">
+  <view class="eyebrow">STUDIO / 02</view>
+  <view class="tryon-title-row"><view class="page-title">虚拟试衣</view><button id="tryOnFreeMatch" size="mini" bindtap="goMatch">自由搭配 ›</button></view>
+  <view class="page-subtitle">男女立体白模 · 固定正面预览穿搭</view>
+  <view wx:if="{{loadError}}" class="card body-section error-text">
+    <view>{{loadError}}</view><button class="secondary-button action" bindtap="loadProfile">重新读取</button>
+  </view>
+  <block wx:else>
+    <view class="body-section">
+      <view class="preview-heading"><view class="preview-label">{{hasProfile ? '我的模特' : '示例模特'}} · {{templateName}}</view><button size="mini" bindtap="editBody">{{hasProfile ? '修改身材' : '设置身材'}}</button></view>
+      <body-preview id="tryOnPreview" interactive="{{true}}" profile="{{bodyProfile}}" items="{{renderItems}}" active-id="{{activeId}}" bind:garmentselect="onGarmentSelect" bind:garmentraise="onGarmentRaise" bind:transformchange="onTransformChange" />
+      <view class="gesture-guide">单指滑动翻页 · 长按拖动并置顶 · 双指缩放 / 旋转</view>
+      <view wx:if="{{activeId}}" class="canvas-toolbar">
+        <view class="canvas-selection"><view class="canvas-selection-name">{{activeName}}</view><view class="canvas-selection-meta">{{scalePercent}}% · {{rotationDeg}}°</view></view>
+        <button size="mini" bindtap="resetActive">重置</button>
+        <button size="mini" bindtap="removeActive">移除</button>
+      </view>
+      <button wx:if="{{canFitActive}}" class="calibrate-button" size="mini" bindtap="calibrateActive">校准这件衣物 · 保存后直接贴合</button>
+    </view>
+    <view class="preview-note">{{activeId ? '点画布中的衣物可切换选中；重叠的内搭可在试穿列表选中。' : '选择下方衣物开始试穿。'}} 白色基础衣裤仅作示意，不会随穿搭保存。</view>
+    <view class="card controls-section">
+      <view class="section-heading"><view class="section-title">正在试穿 · {{wearing.length}}</view><button size="mini" disabled="{{!totalItems}}" bindtap="clearAll">清空</button></view>
+      <view wx:if="{{!wearing.length}}" class="muted empty-copy">可组合上装、下装和外套；连体装会替换上装和下装。</view>
+      <view wx:for="{{wearing}}" wx:key="id" class="wearing-row {{activeId === item.id ? 'active-row' : ''}}">
+        <view class="wearing-main" data-id="{{item.id}}" bindtap="selectWearing"><text class="layer-label">{{item.layerName}}</text><text>{{item.name}}</text></view>
+        <button size="mini" data-id="{{item.id}}" bindtap="removeWearing">移除</button>
+      </view>
+      <view wx:for="{{unavailable}}" wx:key="garmentId" class="wearing-row">
+        <view class="wearing-main error-text">{{item.layerName}} · {{item.label}}。选择同层衣物可替换。</view>
+        <button size="mini" data-id="{{item.garmentId}}" bindtap="removeWearing">移除位置</button>
+      </view>
+    </view>
+    <view id="garmentCatalog" class="card controls-section">
+      <view class="section-heading"><view class="section-title">选择衣物</view><button size="mini" bindtap="addGarment">添加衣物</button></view>
+      <view wx:if="{{catalogError}}" class="error-text"><view>{{catalogError}}</view><button size="mini" bindtap="loadCatalog">重新读取衣橱</button></view>
+      <block wx:else>
+        <input class="search-input" value="{{query}}" placeholder="搜索衣物名称或品类" bindinput="onQueryInput" />
+        <view class="filter-chips">
+          <button size="mini" class="{{!layerFilter ? 'selected-chip' : ''}}" data-layer="" bindtap="setLayerFilter">全部</button>
+          <button wx:for="{{layers}}" wx:key="id" size="mini" class="{{layerFilter === item.id ? 'selected-chip' : ''}}" data-layer="{{item.id}}" bindtap="setLayerFilter">{{item.name}}</button>
+        </view>
+        <view wx:if="{{!totalSupported}}" class="empty-copy">还没有可试穿的衣物。先添加上装、下装、外套或连衣裙等连体装。</view>
+        <view wx:elif="{{!catalog.length}}" class="empty-copy">没有找到符合条件的衣物，请更换搜索或分类。</view>
+        <view wx:else class="garment-grid">
+          <view wx:for="{{catalog}}" wx:key="id" class="garment-choice {{item.selected ? 'selected-garment' : ''}}" data-id="{{item.id}}" bindtap="wear">
+            <image src="{{item.imagePath}}" mode="aspectFit" class="choice-image" />
+            <view class="choice-name">{{item.name}}</view><view class="choice-meta">{{item.categoryName}} · {{item.selected ? '试穿中' : '点击试穿'}}</view>
+            <view class="choice-meta">{{item.hasOverlay ? '使用试衣贴图' : '使用衣物照片'}}</view>
+          </view>
+        </view>
+      </block>
+    </view>
+    <view class="card controls-section">
+      <view class="section-heading"><view class="section-title">{{editingOutfitId ? '编辑已保存穿搭' : '保存这套穿搭'}}</view><button size="mini" bindtap="viewOutfits">我的穿搭</button></view>
+      <view wx:if="{{editingOutfitId}}" class="preview-note">正在编辑：{{editingOutfitName}} · {{unsaved ? '有未保存修改' : '已保存'}}</view>
+      <input class="search-input" value="{{outfitName}}" maxlength="60" placeholder="给穿搭起个名字（最多 60 字）" bindinput="onOutfitNameInput" />
+      <button class="primary-button action" loading="{{savingOutfit}}" disabled="{{savingOutfit || !totalItems || !!catalogError}}" bindtap="saveOutfit">{{editingOutfitId ? '保存修改' : '保存穿搭'}}</button>
+      <button wx:if="{{editingOutfitId}}" class="secondary-button action" disabled="{{savingOutfit || !totalItems || unavailable.length || !!catalogError}}" bindtap="saveAsNew">另存为新穿搭</button>
+      <view wx:if="{{editingOutfitId ? unavailable.length : false}}" class="preview-note">替换或移除不可用衣物后，可另存为新穿搭。</view>
+      <button id="newBlankOutfit" class="secondary-button action" disabled="{{savingOutfit}}" bindtap="newOutfit">开始新一套 · 重新选衣</button>
+    </view>
+    <view class="preview-note">透明正面衣物可按品类尝试分区贴合；肩点、袖口不准时可校准一次并保存，也可保留原图。照片背景杂乱时，可在编辑衣物中使用“去背景”。连体裤、背带裤仍按原图试穿；鞋履、配饰和整套套装暂不支持。预览不判断真实尺码或模拟布料垂坠，数据保存在本机。</view>
+  </block>
+</view>

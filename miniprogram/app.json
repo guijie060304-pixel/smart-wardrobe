@@ -1,0 +1,35 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": [
+    "pages/home/index",
+    "pages/wardrobe/index",
+    "pages/try-on/index",
+    "pages/profile/index",
+    "pages/garment-form/index",
+    "pages/garment-detail/index",
+    "pages/body-settings/index",
+    "pages/outfits/index",
+    "pages/outfit-detail/index",
+    "pages/garment-fitting/index",
+    "pages/outfit-calendar/index",
+    "pages/garment-cutout/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "智能电子衣橱",
+    "navigationBarBackgroundColor": "#F5F3EE",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F5F3EE"
+  },
+  "tabBar": {
+    "color": "#8A968C",
+    "selectedColor": "#28483B",
+    "backgroundColor": "#FFFEFA",
+    "borderStyle": "black",
+    "list": [
+      { "pagePath": "pages/home/index", "text": "首页" },
+      { "pagePath": "pages/wardrobe/index", "text": "衣橱" },
+      { "pagePath": "pages/try-on/index", "text": "试衣" },
+      { "pagePath": "pages/profile/index", "text": "我的" }
+    ]
+  }
+}

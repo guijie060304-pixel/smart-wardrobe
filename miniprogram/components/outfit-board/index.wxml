@@ -1,0 +1,7 @@
+<view class="board-frame {{compact ? 'compact-board' : ''}}">
+  <canvas type="2d" id="outfitCanvas" class="board-canvas" disable-scroll="{{gestureLocked}}" bindtouchstart="onTouchStart" bindtouchmove="onTouchMove" bindlongpress="onLongPress" bindtouchend="onTouchEnd" bindtouchcancel="onTouchCancel" />
+  <view wx:if="{{loading}}" class="board-note">正在准备衣物…</view>
+  <view wx:if="{{gestureLocked}}" class="board-gesture">正在调整 · 松手完成</view>
+  <view wx:if="{{renderError}}" class="board-error"><view>{{renderError}}</view><button size="mini" bindtap="retry">重新绘制</button></view>
+</view>
+<view wx:if="{{warnings.length}}" class="board-warnings"><view wx:for="{{warnings}}" wx:key="*this">{{item}}</view><button size="mini" bindtap="retry">重试图片</button></view>

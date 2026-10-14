@@ -1,0 +1,9 @@
+.board-frame { position: relative; width: 100%; height: 650rpx; min-height: 280px; max-height: 470px; border-radius: 22rpx; overflow: hidden; background: #faf9f5; border: 1rpx solid #e2e7dd; box-sizing: border-box; }
+.board-canvas { display: block; width: 100%; height: 100%; }
+.compact-board { height: 540rpx; min-height: 230px; max-height: 400px; }
+.board-note { position: absolute; top: 18rpx; left: 18rpx; color: #5e7565; font-size: 23rpx; pointer-events: none; }
+.board-gesture { position: absolute; bottom: 16rpx; left: 50%; transform: translateX(-50%); border-radius: 99rpx; padding: 12rpx 22rpx; color: #fffefa; background: #28483b; font-size: 23rpx; white-space: nowrap; pointer-events: none; }
+.board-error { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; padding: 30rpx; background: #faf9f5; text-align: center; color: #a34543; font-size: 26rpx; }
+.board-error button { margin-top: 24rpx; }
+.board-warnings { margin-top: 14rpx; color: #a34543; font-size: 23rpx; line-height: 1.6; }
+.board-warnings button { margin-top: 10rpx; }

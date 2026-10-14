@@ -1,0 +1,30 @@
+<view class="page-shell">
+  <view class="eyebrow">COLLECTION / DETAIL</view>
+  <view wx:if="{{loadError}}" class="card error-text">{{loadError}}</view>
+  <block wx:elif="{{garment}}">
+    <image wx:if="{{!imageFailed}}" class="detail-image" src="{{garment.image.displayPath}}" mode="aspectFit" bindtap="previewImage" binderror="onImageError" />
+    <view wx:else class="detail-image image-fallback">图片文件无法显示</view>
+    <view class="page-title detail-title">{{garment.name}}</view>
+    <view class="page-subtitle">{{categoryName}}</view>
+
+    <view class="card properties">
+      <view wx:if="{{garment.color}}" class="property"><text>颜色</text><text>{{garment.color}}</text></view>
+      <view wx:if="{{seasonText}}" class="property"><text>季节</text><text>{{seasonText}}</text></view>
+      <view wx:if="{{garment.style}}" class="property"><text>风格</text><text>{{garment.style}}</text></view>
+      <view wx:if="{{garment.fit}}" class="property"><text>版型</text><text>{{garment.fit}}</text></view>
+      <view wx:if="{{garment.material}}" class="property"><text>材质</text><text>{{garment.material}}</text></view>
+      <view wx:if="{{garment.brand}}" class="property"><text>品牌</text><text>{{garment.brand}}</text></view>
+      <view wx:if="{{garment.purchasePrice !== undefined}}" class="property"><text>购买价格</text><text>¥{{garment.purchasePrice}}</text></view>
+      <view wx:if="{{garment.purchaseDate}}" class="property"><text>购买日期</text><text>{{garment.purchaseDate}}</text></view>
+      <view wx:if="{{tagText}}" class="property"><text>标签</text><text>{{tagText}}</text></view>
+      <view wx:if="{{garment.note}}" class="property"><text>备注</text><text>{{garment.note}}</text></view>
+      <view wx:if="{{garment.image.overlayPath}}" class="property"><text>试衣贴图</text><text>已添加</text></view>
+    </view>
+
+    <button wx:if="{{canTryOn}}" class="primary-button action" bindtap="tryOnGarment">试穿这件衣物</button>
+    <button wx:if="{{canFit}}" class="secondary-button action" bindtap="calibrateGarment">{{garment.fitting ? '调整贴合校准' : '校准衣物贴合'}}</button>
+    <button class="secondary-button action" bindtap="editGarment">编辑衣物</button>
+    <button class="secondary-button action delete-button" bindtap="deleteGarment">删除衣物</button>
+    <view wx:if="{{!canTryOn}}" class="muted hint">这类衣物暂不支持试穿，可继续在衣橱中管理。</view>
+  </block>
+</view>

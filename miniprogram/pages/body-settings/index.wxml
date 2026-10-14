@@ -1,0 +1,40 @@
+<view class="page-shell">
+  <view class="eyebrow">PERSONAL / BODY</view>
+  <view class="page-title">身材设置</view>
+  <view class="page-subtitle">先选择男女模特，再填写自己的身体尺寸。</view>
+  <view wx:if="{{loadError}}" class="card form-section error-text">
+    <view>{{loadError}}</view>
+    <button class="secondary-button" bindtap="loadProfile">重新读取</button>
+  </view>
+  <block wx:else>
+    <view class="card form-section">
+      <view class="section-title">性别 / 模特</view>
+      <radio-group bindchange="onTemplateChange" class="template-options">
+        <label wx:for="{{templates}}" wx:key="id" class="template-choice {{template === item.id ? 'active-template' : ''}}">
+          <radio value="{{item.id}}" checked="{{template === item.id}}" color="#28483B" />{{item.id === 'masculine' ? '男' : '女'}}
+        </label>
+      </radio-group>
+      <view class="form-note">{{template === 'masculine' ? '男模：按肩胸、腰腹和腿部比例生成。' : '女模：按肩胸、腰臀和腿部比例生成，可补充下胸围。'}} 切换时分别保留本页已填内容，保存当前所选模特。</view>
+    </view>
+    <view class="model-preview"><body-preview id="measurePreview" profile="{{previewProfile}}" /><view class="form-note">即时预览 · 未填项暂按示例估算，估算值不会自动保存。模特比例用于搭配参考。</view></view>
+    <view class="card form-section">
+      <view class="section-title">{{template === 'masculine' ? '男模' : '女模'}} · 基础参数</view>
+      <view wx:for="{{fields}}" wx:key="key" wx:if="{{!item.optional}}" class="measurement-field">
+        <view class="field-label">{{item.name}} <text class="unit">{{item.unit}}</text></view>
+        <input class="measurement-input {{item.error ? 'invalid' : ''}}" type="digit" maxlength="-1" value="{{item.value}}" placeholder="{{item.placeholder}}" data-key="{{item.key}}" bindinput="onFieldInput" />
+        <view wx:if="{{item.error}}" class="field-error">{{item.error}}</view>
+        <view wx:if="{{item.hint}}" class="measurement-hint">{{item.hint}}</view>
+      </view>
+    </view>
+    <view class="card form-section">
+      <view class="section-title">细化比例 · 选填</view><view class="optional-note">填写实测尺寸能改善肩线、腰线和腿长；不确定可先留空。</view>
+      <view wx:for="{{fields}}" wx:key="key" wx:if="{{item.optional}}" class="measurement-field">
+        <view class="field-label">{{item.name}} <text class="unit">{{item.unit}}</text></view>
+        <input class="measurement-input {{item.error ? 'invalid' : ''}}" type="digit" maxlength="-1" value="{{item.value}}" placeholder="{{item.placeholder}}" data-key="{{item.key}}" bindinput="onFieldInput" />
+        <view wx:if="{{item.error}}" class="field-error">{{item.error}}</view><view class="measurement-hint">{{item.hint}}</view>
+      </view>
+    </view>
+    <view class="form-note">身高范围为 150–200cm；体重和围度填写正数。数据只保存在本机。正面围度不能完整还原身体深度，当前预览不模拟布料或判断尺码。</view>
+    <button class="primary-button save-button" loading="{{saving}}" disabled="{{saving}}" bindtap="saveBody">保存并查看模特</button>
+  </block>
+</view>

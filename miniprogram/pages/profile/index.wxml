@@ -1,0 +1,29 @@
+<view class="page-shell">
+  <view class="eyebrow">PERSONAL / 03</view>
+  <view class="page-title">我的</view>
+  <view class="page-subtitle">管理身材数据与本地衣橱</view>
+  <view wx:if="{{loadError}}" class="card body-card error-text">
+    <view>{{loadError}}</view><button class="secondary-button action" bindtap="loadProfile">重新读取</button>
+  </view>
+  <block wx:else>
+    <view class="card body-card">
+      <view class="section-title">我的身材</view>
+      <block wx:if="{{profile}}">
+        <view class="profile-row"><text>模特</text><text>{{templateName}}</text></view>
+        <view class="profile-row"><text>身高</text><text>{{profile.heightCm}} cm</text></view>
+        <view class="profile-row"><text>体重</text><text>{{profile.weightKg}} kg</text></view>
+        <view class="profile-row"><text>胸围</text><text>{{profile.bustCm}} cm</text></view>
+        <view class="profile-row"><text>腰围</text><text>{{profile.waistCm}} cm</text></view>
+        <view class="profile-row"><text>臀围</text><text>{{profile.hipCm}} cm</text></view>
+        <view wx:if="{{profile.shoulderWidthCm}}" class="profile-row"><text>肩宽</text><text>{{profile.shoulderWidthCm}} cm</text></view>
+        <view wx:if="{{profile.torsoLengthCm}}" class="profile-row"><text>上身长</text><text>{{profile.torsoLengthCm}} cm</text></view>
+        <view wx:if="{{profile.inseamCm}}" class="profile-row"><text>内侧腿长</text><text>{{profile.inseamCm}} cm</text></view>
+        <view wx:if="{{profile.template === 'feminine' && profile.underBustCm}}" class="profile-row"><text>下胸围</text><text>{{profile.underBustCm}} cm</text></view>
+      </block>
+      <view wx:else class="empty-copy">还没有保存身材参数，填写后即可生成自己的示意模特。</view>
+      <button class="primary-button action" bindtap="editBody">{{profile ? '修改身材参数' : '设置身材参数'}}</button>
+      <button class="secondary-button action" bindtap="viewBody">查看 2D 模特</button>
+    </view>
+    <view class="privacy-note">身材数据和衣物照片保存在本机。模特用于穿搭示意，不能精确还原真实体型。</view>
+  </block>
+</view>

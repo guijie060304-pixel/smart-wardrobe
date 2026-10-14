@@ -1,0 +1,17 @@
+.form-section { margin-top: 28rpx; }
+.template-options { display: flex; flex-wrap: wrap; gap: 24rpx; }
+.template-choice { display: flex; align-items: center; padding: 13rpx 18rpx; border-radius: 16rpx; background: #e9eee8; color: #345341; font-size: 27rpx; }
+.template-choice { flex: 1; justify-content: center; border: 2rpx solid transparent; }
+.active-template { border-color: #567f63; background: #dfe9dc; }
+.model-preview { margin-top: 28rpx; }
+.measurement-hint, .optional-note { margin-top: 10rpx; font-size: 23rpx; color: #7a857d; line-height: 1.5; }
+.optional-note { margin-bottom: 24rpx; }
+.form-note { margin-top: 24rpx; color: #7a857d; font-size: 25rpx; line-height: 1.6; }
+.measurement-field + .measurement-field { margin-top: 24rpx; }
+.field-label { margin-bottom: 12rpx; color: #334b3e; font-size: 28rpx; font-weight: 600; }
+.unit { margin-left: 10rpx; color: #7a857d; font-size: 24rpx; font-weight: 400; }
+.measurement-input { padding: 20rpx; min-height: 44rpx; border: 1rpx solid #e1e8de; border-radius: 16rpx; background: #f6f7f2; font-size: 30rpx; }
+.invalid { border-color: #a34543; }
+.field-error, .error-text { color: #a34543; font-size: 25rpx; line-height: 1.5; }
+.field-error { margin-top: 8rpx; }
+.save-button { margin-top: 28rpx; }

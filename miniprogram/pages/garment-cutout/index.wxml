@@ -1,0 +1,30 @@
+<view class="cutout-page">
+  <view class="cutout-heading">只留下这件衣服</view>
+  <view class="cutout-note">{{busy ? '正在本机估算，可随时取消' : '框住完整衣物生成初稿，再用保留 / 擦除笔修边。双指可缩放和移动。'}}</view>
+  <view wx:if="{{error}}" class="cutout-error">{{error}}</view>
+  <view class="canvas-wrap">
+    <canvas type="2d" id="cutoutCanvas" class="cutout-canvas" catchtouchstart="onTouchStart" catchtouchmove="onTouchMove" catchtouchend="onTouchEnd" catchtouchcancel="onTouchCancel" />
+    <view wx:if="{{!ready}}" class="canvas-loading">{{loading ? '正在读取照片…' : '照片暂时无法处理'}}</view>
+  </view>
+  <view class="tool-row">
+    <button class="tool {{tool === 'rect' ? 'active' : ''}}" data-tool="rect" bindtap="selectTool" disabled="{{busy || !ready}}">框选</button>
+    <button class="tool {{tool === 'polygon' ? 'active' : ''}}" data-tool="polygon" bindtap="selectTool" disabled="{{busy || !ready}}">手动圈选</button>
+    <button class="tool {{tool === 'keep' ? 'active' : ''}}" data-tool="keep" bindtap="selectTool" disabled="{{busy || !ready}}">保留</button>
+    <button class="tool {{tool === 'erase' ? 'active' : ''}}" data-tool="erase" bindtap="selectTool" disabled="{{busy || !ready}}">擦除</button>
+  </view>
+  <view class="size-row"><text>笔刷粗细</text><slider min="4" max="64" value="{{brush}}" activeColor="#28483B" bindchange="changeBrush" disabled="{{busy}}" /><text>{{brush}}</text></view>
+  <view class="tool-row secondary-tools">
+    <button class="tool" bindtap="undo" disabled="{{!canUndo || busy}}">撤销</button>
+    <button class="tool" bindtap="reset" disabled="{{!ready || busy}}">重置</button>
+    <button class="tool" bindtap="toggleBackground">{{checker ? '查看白底' : '查看透明底'}}</button>
+    <button class="tool" bindtap="resetView">复位视图</button>
+  </view>
+  <view class="cutout-note">{{tool === 'polygon' ? '沿衣物外沿连续画一圈，松手自动闭合；领口和衣架可再用擦除笔去掉。' : tool === 'keep' ? '涂过的部分会从原照片补回来。' : tool === 'erase' ? '涂掉杂物和衣物间隙。' : '从一个角拖到另一个角，框内留一点背景，别切掉袖口和下摆。'}}</view>
+  <view class="footer-actions">
+    <button wx:if="{{busy}}" class="secondary-button" bindtap="cancelEstimate" disabled="{{exporting}}">取消估算</button>
+    <button wx:else class="secondary-button" bindtap="estimate" disabled="{{!ready || !hasRect}}">生成初稿</button>
+    <button class="primary-button" bindtap="apply" loading="{{exporting}}" disabled="{{!ready || busy || !hasResult}}">使用结果</button>
+  </view>
+  <view class="cutout-note footer-note">仅在本机处理。使用结果后，还需在衣物页面点击保存。</view>
+  <canvas type="2d" id="workCanvas" class="hidden-canvas" /><canvas type="2d" id="exportCanvas" class="hidden-canvas" />
+</view>

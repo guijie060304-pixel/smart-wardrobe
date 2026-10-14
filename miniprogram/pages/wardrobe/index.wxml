@@ -1,0 +1,67 @@
+<view class="page-shell wardrobe-shell">
+  <view class="wardrobe-header">
+    <view class="eyebrow">COLLECTION / 01</view>
+    <view class="page-title">{{outfitMode ? '自由搭配' : '我的衣橱'}}</view>
+    <view class="wardrobe-summary"><view class="page-subtitle">共 {{garments.length}} 件衣物</view><view class="wardrobe-links"><button size="mini" bindtap="addGarment">＋ 添加衣物</button><button size="mini" bindtap="viewOutfits">我的穿搭</button></view></view>
+    <view class="wardrobe-modes">
+      <button id="wardrobeBrowse" class="{{!outfitMode ? 'active-mode' : ''}}" disabled="{{savingOutfit}}" bindtap="browseGarments">衣物管理</button>
+      <button id="wardrobeFreeMatch" class="{{outfitMode ? 'active-mode' : ''}}" disabled="{{!!loadError || savingOutfit}}" bindtap="startOutfitMode">自由搭配</button>
+    </view>
+    <view wx:if="{{outfitMode && !showBoard}}" class="match-hint">点选衣物后直接保存，也可先在画布里排列；再点取消，同层自动替换。</view>
+    <block wx:if="{{!loadError && !(outfitMode && showBoard)}}">
+      <input id="garmentSearch" class="search-field" placeholder="搜索衣物名称或品类" value="{{query}}" bindinput="onSearchInput" />
+      <view class="filter-row">
+      <picker range="{{groupOptions}}" value="{{groupIndex}}" bindchange="onGroupChange">
+        <view class="filter-chip">{{groupOptions[groupIndex]}} ⌄</view>
+      </picker>
+      <picker range="{{typeOptions}}" value="{{typeIndex}}" bindchange="onFilterChange" data-kind="type">
+        <view class="filter-chip">{{typeOptions[typeIndex]}} ⌄</view>
+      </picker>
+      <picker range="{{colorOptions}}" value="{{colorIndex}}" bindchange="onFilterChange" data-kind="color">
+        <view class="filter-chip">{{colorOptions[colorIndex]}} ⌄</view>
+      </picker>
+      <picker range="{{seasonOptions}}" value="{{seasonIndex}}" bindchange="onFilterChange" data-kind="season">
+        <view class="filter-chip">{{seasonOptions[seasonIndex]}} ⌄</view>
+      </picker>
+      <picker range="{{styleOptions}}" value="{{styleIndex}}" bindchange="onFilterChange" data-kind="style">
+        <view class="filter-chip">{{styleOptions[styleIndex]}} ⌄</view>
+      </picker>
+      </view>
+    </block>
+  </view>
+  <scroll-view class="garment-scroll" scroll-y="{{!boardLocked}}" show-scrollbar="{{false}}" scroll-into-view="{{scrollAnchor}}">
+    <view class="garment-scroll-content">
+      <view id="list-start-a" class="scroll-anchor"></view><view id="list-start-b" class="scroll-anchor"></view>
+      <view wx:if="{{outfitMode && showBoard}}" id="draft-board" class="draft-board">
+        <view class="draft-board-heading"><view>排列这套穿搭</view><button size="mini" bindtap="toggleDraftBoard">继续选衣</button></view>
+        <outfit-board id="wardrobeBoard" compact="{{true}}" items="{{draftBoardItems}}" layout="{{draftBoardLayout}}" active-id="{{draftActiveId}}" interactive="{{!savingOutfit}}" bind:itemselect="onDraftBoardSelect" bind:itemraise="onDraftBoardRaise" bind:layoutchange="onDraftBoardChange" bind:gesturestate="onDraftBoardGesture" />
+        <view class="match-hint">轻点选中 · 长按拖动并置顶 · 双指缩放 / 旋转</view>
+      </view>
+      <view wx:if="{{loadError}}" class="card error-text">{{loadError}}</view>
+      <view wx:elif="{{!garments.length}}" class="empty-state card">
+      <view class="empty-title">衣橱还没有衣服</view>
+      <view class="empty-copy">{{outfitMode ? '先添加上装、下装等衣物，再回来点选搭配。' : '点击“添加衣物”，从第一件开始整理。'}}</view>
+    </view>
+      <view wx:elif="{{!visible.length}}" class="empty-state card">
+      <view class="empty-title">没有找到符合条件的衣服</view>
+      <view class="empty-copy">试试调整搜索词或筛选条件。</view>
+    </view>
+      <view wx:else class="garment-grid">
+      <view class="garment-card {{outfitMode ? item.selected ? 'selected-card' : !item.canMatch ? 'unavailable-card' : '' : ''}}" wx:for="{{visible}}" wx:key="id" data-id="{{item.id}}" bindtap="openGarment">
+        <view wx:if="{{outfitMode}}" class="selection-badge {{item.selected ? 'checked-badge' : ''}}">{{item.selected ? '✓ 已选' : item.canMatch ? '＋ 选择' : '暂不支持搭配'}}</view>
+        <image wx:if="{{!item.imageFailed}}" src="{{item.image.displayPath}}" mode="{{item.image.originalPath ? 'aspectFit' : 'aspectFill'}}" class="garment-image" data-id="{{item.id}}" binderror="onImageError" />
+        <view wx:else class="garment-image image-fallback">图片无法显示</view>
+        <view class="garment-name">{{item.name}}</view>
+        <view class="garment-meta">{{item.categoryName}}<text wx:if="{{item.color}}"> · {{item.color}}</text></view>
+      </view>
+      </view>
+    </view>
+  </scroll-view>
+  <view wx:if="{{outfitMode}}" class="match-footer">
+    <scroll-view wx:if="{{selected.length}}" scroll-x class="selected-scroll">
+      <view class="selected-strip"><view wx:for="{{selected}}" wx:key="id" class="selected-piece" data-id="{{item.id}}" bindtap="removeSelected"><image src="{{item.imagePath}}" mode="aspectFit" /><view class="selected-copy"><view>{{item.layerName}} · {{item.name}}</view><text>点击移除</text></view></view></view>
+    </scroll-view>
+    <input wx:if="{{selected.length}}" id="freeOutfitName" class="match-name-input" placeholder="搭配名字（选填，留空自动命名）" value="{{outfitNameInput}}" maxlength="{{outfitNameLimit}}" disabled="{{savingOutfit}}" bindinput="onOutfitNameInput" confirm-type="done" />
+    <view class="match-save-row"><view class="match-count">{{selected.length ? '已选 ' + selected.length + ' 件衣物' : '选择衣物，组合一套穿搭'}}</view><button wx:if="{{selected.length}}" id="arrangeDraft" size="mini" disabled="{{savingOutfit}}" bindtap="toggleDraftBoard">{{showBoard ? '收起画布' : '排列画布'}}</button><button id="saveFreeOutfit" class="primary-button" loading="{{savingOutfit}}" disabled="{{!selected.length || savingOutfit || !!loadError}}" bindtap="saveSelectedOutfit">保存穿搭</button></view>
+  </view>
+</view>

@@ -1,0 +1,18 @@
+.page-title { overflow-wrap: anywhere; }
+.preview-tabs { display: flex; gap: 10rpx; margin-top: 26rpx; padding: 8rpx; background: #e9eee8; border-radius: 18rpx; }
+.preview-tabs button { flex: 1; margin: 0; background: transparent; color: #65796a; }
+.preview-tabs .selected-tab { background: #28483b; color: #fffefa; }
+.board-item-chips { display: flex; flex-wrap: wrap; gap: 12rpx; margin-top: 18rpx; }
+.board-item-chips button { margin: 0; color: #49755a; background: #edf2eb; }
+.board-item-chips .selected-chip { color: #fffefa; background: #28483b; }
+.board-toolbar { display: flex; align-items: center; gap: 10rpx; margin-top: 18rpx; }
+.board-toolbar view { flex: 1; min-width: 0; color: #7a857d; font-size: 22rpx; }
+.board-toolbar button { margin: 0; background: #e9eee8; color: #325544; font-size: 22rpx; padding: 0 18rpx; }
+.preview-area, .detail-section, .action { margin-top: 28rpx; }
+.note { margin-top: 18rpx; color: #7a857d; font-size: 25rpx; line-height: 1.6; }
+.garment-row { display: flex; align-items: center; gap: 20rpx; margin-top: 20rpx; font-size: 28rpx; overflow-wrap: anywhere; }
+.garment-row image { width: 100rpx; height: 120rpx; flex-shrink: 0; background: #e9ece5; border-radius: 12rpx; }
+.issue-row, .error-text { color: #a34543; }
+.issue-row { margin-top: 18rpx; font-size: 26rpx; line-height: 1.6; }
+.field-title { font-size: 28rpx; margin-bottom: 18rpx; }
+input { padding: 20rpx; border: 1rpx solid #e1e8de; border-radius: 16rpx; background: #f6f7f2; font-size: 28rpx; }

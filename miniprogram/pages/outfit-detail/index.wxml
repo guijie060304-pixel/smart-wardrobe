@@ -1,0 +1,34 @@
+<view class="page-shell">
+  <view class="eyebrow">LOOKBOOK / DETAIL</view>
+  <view wx:if="{{loadError}}" class="card error-text"><view>{{loadError}}</view><button size="mini" bindtap="loadOutfit">重新读取</button></view>
+  <block wx:elif="{{outfit}}">
+    <view class="page-title">{{outfit.name}}</view>
+    <view class="page-subtitle">{{outfit.deletedAt ? '回收站中的穿搭' : '已保存的穿搭'}} · 更新于 {{updatedDate}}</view>
+    <view class="preview-tabs"><button id="showOutfitBoard" size="mini" class="{{previewMode === 'board' ? 'selected-tab' : ''}}" data-mode="board" disabled="{{saving}}" bindtap="setPreviewMode">搭配画布</button><button id="showOutfitModel" size="mini" class="{{previewMode === 'model' ? 'selected-tab' : ''}}" data-mode="model" disabled="{{saving}}" bindtap="setPreviewMode">模特试衣</button></view>
+    <block wx:if="{{previewMode === 'board'}}">
+      <view class="preview-area"><outfit-board id="savedOutfitBoard" items="{{renderItems}}" layout="{{boardLayout}}" active-id="{{activeBoardId}}" interactive="{{!outfit.deletedAt && !saving}}" bind:itemselect="onBoardSelect" bind:itemraise="onBoardRaise" bind:layoutchange="onBoardChange" /></view>
+      <view class="note">{{outfit.deletedAt ? '回收站中的画布可查看，恢复后可继续调整。' : '轻点选中 · 长按拖动并置顶 · 双指缩放 / 旋转。衣物可以自由叠放。'}}</view>
+      <block wx:if="{{!outfit.deletedAt}}">
+        <view class="board-item-chips"><button wx:for="{{rows}}" wx:key="id" size="mini" class="{{activeBoardId === item.id ? 'selected-chip' : ''}}" data-id="{{item.id}}" bindtap="selectBoardItem">{{item.layerName}}</button></view>
+        <view class="board-toolbar"><view>{{boardDirty ? '有未保存排列' : '排列已保存'}}</view><button size="mini" disabled="{{saving || !activeBoardId}}" bindtap="frontBoardItem">置顶</button><button size="mini" disabled="{{saving || !activeBoardId}}" bindtap="backBoardItem">置底</button><button size="mini" disabled="{{saving}}" bindtap="resetBoard">重排</button></view>
+        <button id="saveOutfitBoard" class="primary-button action" loading="{{saving}}" disabled="{{saving || !boardDirty}}" bindtap="onSaveBoard">保存排列</button>
+      </block>
+    </block>
+    <block wx:else>
+      <view wx:if="{{modelError}}" class="note error-text">{{modelError}}</view>
+      <view wx:else class="preview-area"><body-preview id="savedOutfitModel" profile="{{bodyProfile}}" items="{{renderItems}}" /></view>
+      <view class="note">模特使用{{hasProfile ? '当前身材参数' : '示例身材'}}；画布排列与模特试衣位置分别保存。</view>
+    </block>
+    <view class="card detail-section">
+      <view class="section-title">搭配衣物</view>
+      <view wx:for="{{rows}}" wx:key="id" class="garment-row"><image src="{{item.imagePath}}" mode="aspectFit" /><view><view>{{item.name}}</view><text class="muted">{{item.layerName}}</text></view></view>
+      <view wx:for="{{issues}}" wx:key="garmentId" class="issue-row"><text>{{item.layerName}} · {{item.label}}</text></view>
+    </view>
+    <block wx:if="{{!outfit.deletedAt}}">
+      <button class="secondary-button action" disabled="{{saving}}" bindtap="editInTryOn">去模特试衣并调整</button>
+      <view wx:if="{{issues.length}}" class="note issue-row">无法显示的衣物位置会保留，可在试衣间替换或移除。</view>
+      <button class="secondary-button action" disabled="{{saving}}" bindtap="deleteOutfit">删除穿搭</button>
+    </block>
+    <block wx:else><view class="note">恢复穿搭不会恢复已经删除的衣物。</view><button class="primary-button action" loading="{{saving}}" disabled="{{saving}}" bindtap="restoreOutfit">恢复这套穿搭</button></block>
+  </block>
+</view>
